@@ -18,14 +18,14 @@ The Dockerfile supplied will work for any Flask app on Ubuntu
 ## Step 3: Build a Docker image
 This is optional, but a useful step on a Developer machine, to verify that your Docker image will build properly.
 
-`docker build -t flask-container-action:latest .`
+`docker build -t web-api-front:latest .`
 
 Here, the image is called **flask-container-action**, and it's tagged as **latest**.
 
 ## Step 4: Run the container
 This is optional, but a useful step on a Developer machine, to verify that your Docker image will run properly.
 
-`Docker run -p 80:80 flask-container-action`
+`Docker run -p 80:80 web-api-front`
 
 Here, the local port 80 is mapped to a container port 80.
 
