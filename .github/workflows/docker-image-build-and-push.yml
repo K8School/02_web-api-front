@@ -1,0 +1,38 @@
+name: Docker Image CI
+
+env:
+  IMAGE_NAME: 02_web-api-front
+  IMAGE_TAG: latest
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZ_CREDS }}
+    
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+
+    - run: pip install -r requirements.txt
+    - run: pytest -vv
+
+    - uses: azure/docker-login@v1
+      with:
+        login-server: rcdemoregistry.azurecr.io # default: index.docker.io
+        username: ${{ secrets.REGISTRY_USERNAME }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}
+    - run: |
+        docker build . -t rcdemoregistry.azurecr.io/rcapps/02_web-api-front:latest
+        docker push rcdemoregistry.azurecr.io/rcapps/02_web-api-front:latest
