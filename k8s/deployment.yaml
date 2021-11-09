@@ -1,22 +1,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: web-api-front
+  name: web-front
 spec:
   selector:
     matchLabels:
-      app: web-api-front
+      app: web-front
   template:
     metadata:
       labels:
-        app: web-api-front
+        app: web-front
     spec:
       containers:
-      - name: web-api-front
-        image: rcdemoregistry.azurecr.io/rcapps/flask-container-action:latest
+      - name: web-front
+        image: rcregistry.azurecr.io/web-front:1
         resources:
           limits:
             memory: "128Mi"
             cpu: "500m"
         ports:
         - containerPort: 8080
+        env:
+          - name: API_QUOTES
+            value: http://api-back:8000
+          - name: FLASK_ENV
+            value: production

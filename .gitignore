@@ -1,3 +1,4 @@
+dbuild.sh
 .env
 .env-prod
 /venv
