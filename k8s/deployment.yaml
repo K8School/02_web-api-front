@@ -13,7 +13,8 @@ spec:
     spec:
       containers:
       - name: web-front
-        image: rcregistry.azurecr.io/web-front:1
+        image: rcregistry.azurecr.io/web-front:4
+        imagePullPolicy: Always
         resources:
           limits:
             memory: "128Mi"
@@ -22,6 +23,6 @@ spec:
         - containerPort: 8080
         env:
           - name: API_QUOTES
-            value: http://api-back:8000
+            value: http://api-back-service:8000
           - name: FLASK_ENV
             value: production

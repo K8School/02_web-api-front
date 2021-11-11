@@ -4,24 +4,22 @@ import requests
 from dotenv import load_dotenv
 import os
 import json
+import logging
+import socket
 
 load_dotenv()  # take environment variables from .env.
-
-# Code of your application, which uses environment variables (e.g. from `os.environ` or
-# `os.getenv`) as if they came from the actual environment.
-
 
 app = Flask(__name__)
 
 @app.route('/')
 def hello():
     #return 'Hello, World! This is v4!'
-    return render_template('index.html', msg='Hello World!', title="Hello from a Docker Container!")
+    return render_template('index.html', msg='Hello World!', title="Hello from a Docker Container!", hostname=socket.gethostname())
 
 @app.route('/hello/<name>')
 def hello_you(name):
     #return 'Hello, World! This is v4!'
-    return render_template('index.html', msg=f"Hello {name}!", title="Hello from a Docker Container!")
+    return render_template('index.html', msg=f"Hello {name}!", title="Hello from a Docker Container!", hostname=socket.gethostname())
 
 @app.route('/microservices')
 def microservice():
@@ -29,7 +27,7 @@ def microservice():
     r = requests.get(quote_url + "/quote_sentiment").text  
     quote = json.loads(r)["phrase"]
     sentiment = json.loads(r)["sentiment"]
-    return render_template('frame.html', quote=quote, sentiment=sentiment, time="now")
+    return render_template('frame.html', quote=quote, sentiment=sentiment, time="now", hostname=socket.gethostname())
 
 
 @app.route('/universe')
@@ -40,7 +38,7 @@ def universe():
 def add(num1, num2):
     sum = num1 + num2
     message = f"{num1} + {num2} = {sum}"
-    return render_template('index.html', msg=message, title="Hello from a Docker Container!")
+    return render_template('index.html', msg=message, title="Hello from a Docker Container!", hostname=socket.gethostname())
 
 
 @app.route('/txtadd/<int:num1>/<int:num2>')
